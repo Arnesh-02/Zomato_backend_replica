@@ -1,6 +1,8 @@
 create table restaurent (
 Restuarent_id int auto_increment primary key,
 Name varchar(25) not null,
+username varchar(20) not null unique,
+password varchar(12) not null
 Star_rating int not null,
 Address varchar(50) not null,
 Cusines varchar(50) not null,
