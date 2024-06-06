@@ -2,7 +2,7 @@ import java.*;
 
 public class customer_acc_creation {
     public void customer_acc_creation() {
-        String sql = "insert into Customer_table (Id,Name,Dob,Email,Phone_no,Gender,Address,Category,created_at,Modified_at) values(?,?,?,?,?,?,?,?,?,?);";
+        String sql = "insert into Customer_table (Id,Name,Dob,Email,Phone_no,Gender,Address,Category,created_at,Modified_at,username,password) values(?,?,?,?,?,?,?,?,?,?,?,?);";
         Connection con = null;
         PreparedStatement pstm = null;
         try {
@@ -19,6 +19,8 @@ public class customer_acc_creation {
             pstm.setString(8, cus_category);
             pstm.setTimestamp(9, new Timestamp(new Date().getTime()));
             pstm.setTimestamp(10, new Timestamp(new Date().getTime()));
+            pstm.setString(11,username);
+            pstm.setString(12,password);
             pstm.executeUpdate();
             System.out.println("Account created successfully !!");
             pstm.close();
