@@ -1,46 +1,41 @@
 import java.sql.*;
-import java.util.Scanner;
-public class customer_acc_deletion {
-    public void customer_acc_deletion(int cus_id) {
-        String sql = "delete from Customer where id=?";
+import java.util.*;
+
+class restaurent_acc_deletion {
+    public void restuarent_acc_deletion(int cus_id) {
+        String sql = "delete from restaurent where restuarent_id=?";
         Connection con = null;
         PreparedStatement pstm = null;
         try {
             con = dbconnection.getConnection();
             pstm = con.prepareStatement(sql);
-            
-            pstm.setInt(1,cus_id);
+           
+            pstm.setInt(1,cus_id);//id that need to deleted 
             int rowsaffected = pstm.executeUpdate();
             if (rowsaffected > 0) {
                 System.out.println("Account deleted succefully");
             } else {
                 System.out.println("Account does not exist");
             } 
+            
         } 
         catch (SQLException e) {
             e.printStackTrace();
         }
         finally {
-            try{
-                if(pstm!=null){
+            try {
                 pstm.close();
-            }
-            if(con!=null){
-                pstm.close();
-            }
-            }
-            catch(SQLException e){
+                con.close();
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
-            
         }
     }
     public static void main(String[] args) {
-        customer_acc_deletion ob1 = new customer_acc_deletion();
-        Scanner sc=new Scanner(System.in);
-        System.err.println("Enter the id to delete customer:");
-        int id=sc.nextInt();
-        ob1.customer_acc_deletion(id); //id to delete
-
+        restaurent_acc_deletion ob=new restaurent_acc_deletion();
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter id to delete:");
+        int cus_id = sc.nextInt();
+        ob.restuarent_acc_deletion(cus_id);
     }
 }
