@@ -1,6 +1,8 @@
 create table delivery_person(
 Delivery_person_id int auto_increment primary key,
 Name varchar(20) not null,
+Username varchar(20) not null unique,
+password varchar(12) not null,
 Vechile_type varchar(20) not null,
 Phone_no varchar(13) not null unique,
 Status varchar (15) not null,
