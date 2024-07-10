@@ -81,7 +81,7 @@ public class item {
         System.out.println("Enter the quantitiy:");
         int quantity = sc.nextInt();
 
-        //item.add_item(name, desc, price, star_rating, res_id, category, size, quantity);
+        item.add_item(name, desc, price, star_rating, res_id, category, size, quantity);
         item.removeitem(1);
         sc.close();
 

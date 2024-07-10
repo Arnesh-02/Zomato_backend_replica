@@ -32,9 +32,7 @@ class restaurant_acc_creation {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        finally{
-            Scanner.close();
-        }
+        
         
     }
     public static void main(String[] args) {
@@ -79,6 +77,6 @@ class restaurant_acc_creation {
         int res_reviews_id = scanner.nextInt();
 
         ob1.restaurant_acc_creation(res_name,res_star_rating,res_address,res_cusines,res_phone_no,res_opening_hours,res_avg_delivery_time,res_avg_distance_in_kms,res_menu_id,res_category,res_reviews_id);
-    
+        scanner.close();
     }
 }
