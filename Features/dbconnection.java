@@ -1,20 +1,21 @@
-import java.util.*;
+package com.emailsender;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class dbconnection {
     private static final String url = "jdbc:mysql://localhost:3306/zomato_backend_replica";
     private static final String username = "root";
     private static final String password = "";
 
-    public static Connection getconnection() {
+    public static Connection getConnection() {
         try {
             Connection con = DriverManager.getConnection(url, username, password);
             System.out.println("Connection sucessful!.");
             return con;
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Error message: "+e.getMessage());
             return null;
         }
     }
 }
-
-

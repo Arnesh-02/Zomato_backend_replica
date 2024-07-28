@@ -1,27 +1,51 @@
-import java.util.*;
-import java.sql.*;
+package com.emailsender;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Date;
+import java.util.Scanner;
 
 public class item {
-    public static void add_item(String name, String desc, String price, int star_rating, int res_id, String category, String size, int quantity) {
-        Connection con = null;
-        PreparedStatement pstm = null;
+    protected static  Connection con=null;
+    protected  static Scanner sc=new Scanner(System.in);
+    protected static  PreparedStatement pstm=null;
+    protected static  ResultSet rs=null;
+
+  
+    
+    public static void add_item() {
         try {
             con = dbconnection.getConnection();
-            String sql = "Insert into items (Item_name,descrption,price,star_rating,restuarent_id,category,size,quantity) values (?,?,?,?,?,?,?,?);";
+            System.out.println("Enter the name of the item:");
+            String name = sc.nextLine();
+            System.out.println("Enter the descrption:");
+            String desc = sc.nextLine();
+            System.out.println("Enter the price:");
+            String price = sc.nextLine();
+            System.out.println("Enter star rating:");
+            float star_rating = sc.nextFloat();
+            System.out.println("Enter the restaurent_id");
+            int res_id = sc.nextInt();
+            sc.nextLine();
+            System.out.println("Enter the category(veg/non-veg)");
+            String category = sc.nextLine();
+            String sql = "Insert into items (Item_name,descrption,price,star_rating,restaurent_id,category,created_at,modified_at) values (?,?,?,?,?,?,?,?);";
             pstm = con.prepareStatement(sql);
             pstm.setString(1, name);
             pstm.setString(2, desc);
             pstm.setString(3, price);
-            pstm.setInt(4, star_rating);
+            pstm.setFloat(4, star_rating);
             pstm.setInt(5, res_id);
             pstm.setString(6, category);
-            pstm.setString(7, size);
-            pstm.setInt(8, quantity);
+            pstm.setTimestamp(7,new Timestamp(new Date().getTime()));
+            pstm.setTimestamp(8, new Timestamp(new Date().getTime()));
             pstm.executeUpdate();
             System.out.println("Item added succesfully!");
-        } catch (Exception e) {
-            System.out.println("Error in adding an item!");
-            e.printStackTrace();
+        } catch (SQLException e) {
+            System.out.println("Error in adding an item!\n"+e.getMessage());
+    
 
         } finally {
             try {
@@ -30,60 +54,160 @@ public class item {
                 if (con != null)
                     con.close();
             } catch (SQLException e) {
-                e.printStackTrace();
+                System.out.println(e.getMessage());
             }
         }
     }
 
     public static void removeitem(int id) {
-        Connection con = null;
-        PreparedStatement pstm = null;
-        try {
-            con = dbconnection.getConnection();
-            String sql = "delete from items where item_id=?";
-            pstm = con.prepareStatement(sql);
-            pstm.setInt(1, id);
-            pstm.executeUpdate();
-            System.out.println("Item deleted succesfully!");
-        } catch (Exception e) {
-            System.out.println("Error in deleting an item!");
-            e.printStackTrace();
 
-        } finally {
-            try {
-                if (pstm != null)
-                    pstm.close();
-                if (con != null)
-                    con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
+        try {
+            if(is_item_available(id)){
+                con = dbconnection.getConnection();
+                String sql = "delete from items where item_id=?";
+                pstm = con.prepareStatement(sql);
+                pstm.setInt(1, id);
+                pstm.executeUpdate();
+                System.out.println("Item deleted succesfully!");
             }
+            else{
+                System.out.println("Item is not available!");
+            }
+        }
+             catch (SQLException e) {
+                System.out.println("Error in deleting an item!"+e.getMessage());
+    
+    
+            } finally {
+                try {
+                    if (pstm != null)
+                        pstm.close();
+                    if (con != null)
+                        con.close();
+                } catch (SQLException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+            
+           
+    }
+
+    public static boolean is_item_available(int id){
+        try {
+            con=dbconnection.getConnection();
+            String sql="select * from items where item_id=?";
+            pstm=con.prepareStatement(sql);
+            pstm.setInt(1,id);
+            rs=pstm.executeQuery();
+            if(rs.next()){
+                return true;
+            }
+            else{
+                return false;
+            }   
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return false;
+        
+    }
+
+    public static  void modifyItem(int id){
+        if(item.is_item_available(id)){
+            modifyDetailsItem ob=new modifyDetailsItem(id);
+        }
+        else{
+            System.out.println("Item not registered");
         }
     }
 
+    public static void displayAllItems(){
+        try {
+                item_details ob=new item_details();
+                con=dbconnection.getConnection();
+                String sql="Select item_id,item_name,descrption,price,star_rating,restaurent_id,category from items";
+                pstm=con.prepareStatement(sql);
+                rs=pstm.executeQuery();   
+                while(rs.next()){
+                     ob.setItemId(rs.getInt("item_id"));
+                     ob.setItemName(rs.getString("item_name"));
+                     ob.setDescrption(rs.getString("descrption"));
+                     ob.setPrice(rs.getString("price"));
+                     ob.setStarrating(rs.getFloat("star_rating"));
+                     ob.setRes_id(rs.getInt("restaurent_id"));
+                     ob.setCategory(rs.getString("category"));
+ 
+                     System.out.println("\n\nItem id: "+ob.getItemid()+"\nItem name: "+ob.getItemName()+"\nItem descrption: "+ob.getDescrption()+"\nItem price: "+ob.getPrice()+"\nItem star rating:"+ob.getStarrating()+"\nItem Restaurent id: "+ob.getRes_id()+"\nItem category: "+ob.getCategory());
+
+                } 
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public static void displayItem(int id){
+        try {
+            if(is_item_available(id)){
+                item_details ob=new item_details();
+                String sql="Select item_id,item_name,descrption,price,star_rating,restaurent_id,category from items where item_id=?";
+                pstm=con.prepareStatement(sql);
+                pstm.setInt(1,id);
+                rs=pstm.executeQuery();   
+                while(rs.next()){
+                     ob.setItemId(rs.getInt("item_id"));
+                     ob.setItemName(rs.getString("item_name"));
+                     ob.setCategory(rs.getString("category"));
+                     ob.setRes_id(rs.getInt("restaurent_id"));
+                     ob.setStarrating(rs.getFloat("star_rating"));
+                     ob.setDescrption(rs.getString("descrption"));
+                     ob.setPrice(rs.getString("price"));
+                     System.out.println("\n\nItem id: "+ob.getItemid()+"\nItem name: "+ob.getItemName()+"\nItem descrption: "+ob.getDescrption()+"\nItem price: "+ob.getPrice()+"\nItem star rating:"+ob.getStarrating()+"\nItem Restaurent id: "+ob.getRes_id()+"\nItem category: "+ob.getCategory());
+
+                } 
+            }
+            else{
+                System.out.println("Item is not available!");
+            }
+           
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        
+
+
+    }
+
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Enter the name of the item:");
-        String name = sc.nextLine();
-        System.out.println("Enter the descrption:");
-        String desc = sc.nextLine();
-        System.out.println("Enter the price:");
-        String price = sc.nextLine();
-        System.out.println("Enter star rating:");
-        int star_rating = sc.nextInt();
-        System.out.println("Enter the restaurent_id");
-        int res_id = sc.nextInt();
-        sc.nextLine();
-        System.out.println("Enter the category(veg/non-veg)");
-        String category = sc.nextLine();
-        System.out.println("Enter the size:");
-        String size = sc.nextLine();
-        System.out.println("Enter the quantitiy:");
-        int quantity = sc.nextInt();
-
-        item.add_item(name, desc, price, star_rating, res_id, category, size, quantity);
-        item.removeitem(1);
-        sc.close();
-
+          while(true){
+            int id=0;
+            System.out.println("\nEnter your choice\nEnter 1 to create an item\nEnter 2 to delete an item\nEnter 3 to modify item details\nEnter 4 to display all items\nEnter 5 to diplay a specific item\nEnter 6 to exit");
+            int ch=sc.nextInt();
+            sc.nextLine();
+            if(ch==2 || ch==3 || ch==5){
+                System.out.println("Enter the item id:");
+                id=sc.nextInt();
+            }
+            switch (ch) {
+                case 1:
+                    item.add_item();
+                    break;
+                case 2:
+                    item.removeitem(id);
+                    break;
+                case 3:
+                    item.modifyItem(id);
+                    break;
+                case 4:
+                    item.displayAllItems();
+                    break;
+                case 5:
+                    item.displayItem(id);
+                    break;
+                case 6:
+                    System.exit(0);
+                default:
+                    System.out.println("Enter any valid input..Try again.! \n");
+            }
+        }
     }
 }
