@@ -43,14 +43,14 @@ public class restaurant{
             }
             
     
-            System.out.print("Enter Star Rating: ");
+            System.out.print("Enter Star Rating(for temp purpose): ");
             float res_star_rating = sc.nextFloat();
             sc.nextLine();
     
             System.out.print("Enter Address: ");
             String res_address = sc.nextLine();
     
-            System.out.print("Enter Cuisines: ");
+            System.out.print("Enter Cuisines(eg:indian,italian,french,.): ");
             String res_cusines = sc.nextLine();
     
             System.out.print("Enter Phone Number: ");
@@ -58,17 +58,35 @@ public class restaurant{
     
             System.out.print("Enter Opening Hours: ");
             String res_opening_hours = sc.nextLine();
+
+           // Integer res_menu_id=null;
+            /* 
+            System.out.print("Enter Menu ID(if not yet created null): ");
+            String res_menu_id-sc.nextLine();
+            Integer res_menu_id_null_chexk = sc.nextInt();
+            sc.nextLine();
+            */
     
-            System.out.print("Enter Menu ID: ");
-    
-            int res_menu_id = sc.nextInt();
-            sc.nextLine(); 
-    
-            System.out.print("Enter Category: ");
+            System.out.print("Enter Category(pure veg/non-veg): ");
             String res_category = sc.nextLine();
-    
-            System.out.print("Enter Reviews ID: ");
-            int res_reviews_id = sc.nextInt();
+
+            //Integer res_reviews_id=null;
+            /* 
+            System.out.print("Enter Reviews ID(or enter null): ");
+            String res_reviews_id = sc.nextLine();
+            
+            
+            if(!(res_reviews_id.equalsIgnoreCase("null"))){
+                try {
+                    res_reviews_id_check_null=Integer.parseInt(res_reviews_id);
+                    
+                } catch (NumberFormatException e) {
+                    System.out.println("error message:"+e.getMessage());
+                    return;
+                }
+
+            }
+                */
     
             con = dbconnection.getConnection();
             pstm = con.prepareStatement(sql);
@@ -81,9 +99,9 @@ public class restaurant{
             pstm.setString(6, res_cusines);
             pstm.setString(7, res_phone_no);
             pstm.setString(8, res_opening_hours);
-            pstm.setInt(9, res_menu_id);
+            pstm.setNull(9, java.sql.Types.INTEGER);
             pstm.setString(10, res_category);
-            pstm.setInt(11, res_reviews_id);
+            pstm.setNull(11, java.sql.Types.INTEGER);
             pstm.setTimestamp(12, new Timestamp(new Date().getTime()));
             pstm.setTimestamp(13, new Timestamp(new Date().getTime()));
             pstm.executeUpdate();
@@ -141,8 +159,9 @@ public class restaurant{
             try {
                 con=dbconnection.getConnection();
                 restaurant_details ob=new restaurant_details();
-                String sql="select * from restaurant";
+                String sql="select * from restaurant where restaurant_id=?";
                 pstm=con.prepareStatement(sql);
+                pstm.setInt(1,id);
                 rs=pstm.executeQuery();
                 if(!rs.next()){
                     System.out.println("Account does not exist");
@@ -250,7 +269,7 @@ public class restaurant{
 
         public static void main(String[] args) {
             while(true){
-                System.out.println("Enter 1 to add a restaurant\nEnter 2 to delete restaurant account\nEnter 3 to modify restaurant details\nEnter 4 to display restaurant details\nEnter 5 to change password\nEnter 6 to exit");
+                System.out.println("\nEnter 1 to add a restaurant\nEnter 2 to delete restaurant account\nEnter 3 to modify restaurant details\nEnter 4 to display restaurant details\nEnter 5 to change password\nEnter 6 to exit");
                 int ch=sc.nextInt();
                 int id=0;
                 if(ch==2||ch==3||ch==4||ch==5){

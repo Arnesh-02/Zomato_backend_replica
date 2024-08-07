@@ -158,6 +158,9 @@ public class Customer {
         if(!acc_available_status(id)){
             return;
         }
+        else{
+
+        }
         try {
             new modify_cus_details(id);
         } 
@@ -247,12 +250,15 @@ public class Customer {
         try {
             System.out.println("Enter your email id:");
             String email = sc.next();
+            
             if (is_email_available(email)) {
+                
                 con = dbconnection.getConnection();
                 int sent_otp = send_otp1(email); // get the randomly generated otp
                 System.out.println("Enter otp:");
                 int ent_otp = sc.nextInt();
                 sc.nextLine();
+                while(true){
                 if (ent_otp == sent_otp) {
                     System.out.println("Enter your new password:");
                     String new_pass_1 = sc.nextLine();
@@ -265,12 +271,14 @@ public class Customer {
                         pstm.setString(2, email);
                         pstm.executeUpdate();
                         System.out.println("Password reset successful");
+                        break;
                     } else {
                         System.out.println("Passwords do not match!");
                     }
                 } else {
                     System.out.println("Incorrect OTP");
                 }
+            }
             } else {
                 System.out.println("Email id does not exist!");
             }
