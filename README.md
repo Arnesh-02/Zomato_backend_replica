@@ -2,7 +2,6 @@ Inspired by the backend of food delivery Company Zomato.Hereby i try to replicat
 
 Topic : Zomato Backend replica
 
-
 Features:
 1.Login 
   1.1 Admin login 
