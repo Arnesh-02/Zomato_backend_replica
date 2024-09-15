@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zomato Replica</title>
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        /* Header styling */
+        header {
+            background-color: #e23744;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.2rem;
+        }
+
+        /* Navigation buttons */
+        .services-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 40px;
+            gap: 30px;
+        }
+
+        .service-button {
+            background-color: #e23744;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .service-button:hover {
+            background-color: #ff5a5f;
+        }
+
+        .service-button:active {
+            background-color: #d32f2f;
+        }
+
+        /* Footer styling */
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+
+        footer p {
+            font-size: 1rem;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+            .service-button {
+                padding: 10px 20px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header>
+        <h1>Welcome to Zomato Replica</h1>
+        <p>Explore our services below</p>
+    </header>
+
+    <!-- Services Buttons -->
+    <div class="services-container">
+        <button class="service-button" onclick="location.href='addAccCus.html'">Create Account</button>
+        <button class="service-button" onclick="location.href='delAccCus.html'">Delete Account</button>
+        <button class="service-button" onclick="location.href='changePassCus.html'">Change Password</button>
+        <button class="service-button" onclick="location.href='viewProfile'">View Profile</button>
+        <button class="service-button" onclick="location.href='orderFood.html'">Order Food</button>
+        <button class="service-button" onclick="location.href='trackOrder'">Track Order</button>
+    </div>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>&copy; 2024 Zomato Replica. All Rights Reserved.</p>
+    </footer>
+
+</body>
+</html>

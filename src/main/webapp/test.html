@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<form action="ModifyCustomerServlet" method="post">
+    <input type="hidden" name="customerId" value="1">  <!-- Replace with actual customer ID -->
+    <select name="action">
+        <option value="modifyName">Modify Name</option>
+        <option value="modifyEmail">Modify Email</option>
+        <!-- Add more options as needed -->
+    </select>
+    <input type="text" name="newValue" placeholder="Enter new value">
+    <button type="submit">Update</button>
+</form>
+
+
+</body>
+</html>

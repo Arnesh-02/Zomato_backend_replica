@@ -1,0 +1,78 @@
+<!-- account_deletion.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Account</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #e23744;
+            text-align: center;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        input[type="submit"] {
+            margin-top: 20px;
+            background-color: #e23744;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #ff5a5f;
+        }
+    </style>
+    
+    <script>
+        // Function to display pop-up message if present in the URL
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const message = urlParams.get('message');
+            if (message) {
+                alert(message);
+            }
+        };
+    </script>
+</head>
+<body>
+    <h1>Delete Your Account</h1>
+    <form method="POST" action="deleteAcc">
+    <input type="hidden" name="action" value="delAccCus"> 
+        <label for="phno">Enter phone no to Delete Account:</label>
+        <input type="text" id="phno" name="phno" required><br>
+        <input type="submit" value="Delete Account">
+    </form>
+</body>
+</html>
